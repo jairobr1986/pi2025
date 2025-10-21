@@ -1,0 +1,16 @@
+projeto_nomes/
+│
+├── app.py
+├── nomes.db
+├── static/
+│   ├── nomes_comuns.png
+│   ├── origens.png
+│   └── css/
+│       └── style.css   (se quiser CSS extra)
+└── templates/
+    ├── base.html       👈 base para todas as páginas
+    ├── index.html
+    ├── cadastrar.html
+    ├── listar.html
+    ├── buscar.html
+    └── estatisticas.html

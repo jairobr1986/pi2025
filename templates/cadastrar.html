@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Cadastrar Nome{% endblock %}
+
+{% block content %}
+<h1>Cadastrar Novo Nome</h1>
+<form method="POST">
+  <div class="mb-3">
+    <label class="form-label">Nome</label>
+    <input type="text" name="nome" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Significado</label>
+    <input type="text" name="significado" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Origem</label>
+    <input type="text" name="origem" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Motivo da escolha</label>
+    <input type="text" name="motivo" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-success">Cadastrar</button>
+</form>
+{% endblock %}

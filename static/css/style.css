@@ -1,0 +1,18 @@
+.top-nomes li {
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+}
+
+.top-nomes li:hover {
+    background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
+    color: #333; /* Cor do texto (opcional) */
+    cursor: pointer; /* Muda o cursor para indicar interatividade */
+}
+
+.top-nomes .nome {
+    font-weight: bold; /* Destaca o nome */
+}
+
+.top-nomes .contagem {
+    color: #007bff; /* Cor da contagem */
+}

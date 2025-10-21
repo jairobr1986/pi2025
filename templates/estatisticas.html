@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Estatísticas{% endblock %}
+
+{% block content %}
+<h1>Estatísticas</h1>
+<p>Total de nomes: <strong>{{ total }}</strong></p>
+<p>Nome mais comum: <strong>{{ mais_comum }}</strong></p>
+<p>Origem mais comum: <strong>{{ origem_comum }}</strong></p>
+
+<h2 class="mt-4">Gráficos</h2>
+<div class="row">
+  <div class="col-md-6">
+    <h5>Top 5 Nomes Mais Comuns</h5>
+    <img src="{{ url_for('static', filename='nomes_comuns.png') }}" class="img-fluid">
+  </div>
+  <div class="col-md-6">
+    <h5>Distribuição das Origens</h5>
+    <img src="{{ url_for('static', filename='origens.png') }}" class="img-fluid">
+  </div>
+</div>
+{% endblock %}

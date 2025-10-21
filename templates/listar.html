@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Listar Nomes{% endblock %}
+
+{% block content %}
+<h1>Lista de Nomes</h1>
+
+<form class="row g-3 mb-3" method="GET" action="{{ url_for('listar') }}">
+  <div class="col-md-4">
+    <input type="text" name="nome" placeholder="Filtrar por nome" class="form-control" value="{{ filtro_nome | default('') }}">
+  </div>
+  <div class="col-md-4">
+    <input type="text" name="origem" placeholder="Filtrar por origem" class="form-control" value="{{ filtro_origem | default('') }}">
+  </div>
+  <div class="col-md-4">
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+  </div>
+</form>
+
+{% if nomes %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Significado</th>
+      <th>Origem</th>
+      <th>Motivo</th>
+      <th>Pesquisas</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for nome in nomes %}
+    <tr>
+      <td>{{ nome.id or '' }}</td>
+      <td>{{ nome.nome or '' }}</td>
+      <td>{{ nome.significado or '' }}</td>
+      <td>{{ nome.origem or '' }}</td>
+      <td>{{ nome.motivo_escolha or '' }}</td> <!-- Corrigido para motivo_escolha -->
+      <td>{{ nome.pesquisas or 0 }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<nav>
+  <ul class="pagination">
+    {% for p in range(1, total_pages + 1) %}
+      <li class="page-item {% if p == page %}active{% endif %}">
+        <a class="page-link" href="{{ url_for('listar', page=p, nome=filtro_nome, origem=filtro_origem) }}">{{ p }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
+{% else %}
+<p class="text-warning">Nenhum nome encontrado. <a href="{{ url_for('cadastrar') }}">Cadastre um novo nome</a> ou verifique a tabela no Supabase.</p>
+{% endif %}
+{% endblock %}

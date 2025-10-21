@@ -1,0 +1,13 @@
+✅ O que você aprendeu aqui
+
+Como criar banco de dados SQLite com Flask.
+
+Como criar rotas (/cadastrar, /listar, /buscar).
+
+Como usar Pandas para estatísticas.
+
+Como gerar gráficos com Matplotlib e salvar na pasta static.
+
+Como retornar gráficos nas páginas HTML.
+
+Como exportar para Excel (CSV)
