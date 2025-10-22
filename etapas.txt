@@ -1,0 +1,108 @@
+🧱 ETAPA 1 – Verificar o tipo de banco do Supabase
+
+No Supabase, o banco é PostgreSQL, então o uso de psycopg2 está certo ✅
+Você não precisa usar o SDK do Supabase (create_client) se estiver acessando o banco diretamente via conexão.
+
+⚙️ ETAPA 2 – Configurar variáveis no Render
+
+Quando você cria um Web Service no Render, vá até a aba Environment → Environment Variables e adicione estas chaves exatamente assim:
+
+Nome da variável	Valor (pegue do Supabase Project Settings → Database)
+DB_HOST	ex: db.cgrxdexfgqnyguteaobu.supabase.co
+DB_PORT	5432
+DB_NAME	postgres
+DB_USER	postgres
+DB_PASSWORD	🔑 sua senha real do Supabase (não deixe entre aspas)
+
+⚠️ Importante:
+Não copie o código create_client() mostrado na imagem anterior — aquilo é para usar o SDK do Supabase, mas você já está usando conexão direta via psycopg2, o que é mais simples e 100% compatível com Render.
+
+🧩 ETAPA 3 – Arquivo .env (para rodar localmente)
+
+Você pode manter o arquivo .env só para rodar localmente, mas no Render ele não é lido (a não ser que você crie um Secret File manualmente, o que não é necessário).
+Exemplo local:
+
+DB_HOST=db.cgrxdexfgqnyguteaobu.supabase.co
+DB_PORT=5432
+DB_NAME=postgres
+DB_USER=postgres
+DB_PASSWORD=projeto_integrador_2025_banco_de_dados
+
+
+No Render, o sistema pega automaticamente essas variáveis do painel.
+
+🚀 ETAPA 4 – Verificar app.py
+
+O seu app.py deve ter algo assim no topo:
+
+from flask import Flask
+from db_postgres import init_db
+
+app = Flask(__name__)
+
+@app.before_first_request
+def setup():
+    init_db()
+
+@app.route('/')
+def index():
+    return "API funcionando!"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=10000)
+
+
+O importante é que o Flask use host='0.0.0.0' e nunca localhost, senão o Render não vai conseguir acessar.
+
+🏗️ ETAPA 5 – Arquivo requirements.txt
+
+Crie (ou atualize) o arquivo requirements.txt na raiz do seu projeto:
+
+Flask==3.0.3
+psycopg2-binary==2.9.9
+python-dotenv==1.0.1
+gunicorn==22.0.0
+
+🖥️ ETAPA 6 – Configuração no Render
+
+Durante o deploy:
+
+Environment: Python 3
+
+Build Command:
+
+pip install -r requirements.txt
+
+
+Start Command:
+
+gunicorn app:app
+
+
+Isso indica que o Render vai rodar o Flask com o app exportado no arquivo app.py.
+
+🔎 ETAPA 7 – Teste de diagnóstico
+
+Depois que subir, abra o Logs no Render.
+
+Se aparecer algo como:
+
+Tabela 'nomes' verificada/criada no PostgreSQL na nuvem com sucesso.
+
+
+✅ Está tudo funcionando.
+
+Se aparecer algo como:
+
+Erro ao inicializar o pool de conexões: connection refused
+
+
+➡️ Significa que as variáveis de ambiente estão erradas (geralmente DB_HOST ou DB_PASSWORD).
+
+Se quiser, me envie agora:
+
+O início do seu app.py (só até o app.run()).
+
+A lista das variáveis que você colocou no Render (só os nomes, sem o valor da senha).
+
+Aí eu te confirmo se está 100% certo para deploy.
