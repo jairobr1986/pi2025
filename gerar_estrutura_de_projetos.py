@@ -34,7 +34,7 @@ import os
 raiz = "."  # "." significa a pasta atual
 
 # Extensões que queremos mostrar
-extensoes_permitidas = [".py", ".html"]
+extensoes_permitidas = [".py", ".html", ".txt", ".md", ".csv",".db",".css",".png"]
 
 # Pastas que queremos ignorar
 pastas_ignorar = {"__pycache__", "venv", "node_modules", ".git", ".venv"} # <--- Adicionado .venv

@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import matplotlib.pyplot as plt
 import base64
 
-import db_postgres as db_conexao
+import db as db_conexao
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'sua_chave_secreta_padrao_muito_segura')
