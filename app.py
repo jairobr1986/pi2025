@@ -21,10 +21,29 @@ def fetch_all(query, params=None):
     try:
         conn = db_conexao.get_connection()
         cursor = conn.cursor()
+        print(f"DEBUG: Executando query: {query}") # Debug 1: A query sendo executada
         cursor.execute(query, params or ())
+        
+        # OBTENDO COLUNAS E DADOS RAW
         columns = [desc[0] for desc in cursor.description]
-        results = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        raw_rows = cursor.fetchall()
+        
+        # DEBUG 2: Exibir o mapeamento de colunas
+        print(f"DEBUG: Colunas encontradas: {columns}")
+        
+        # DEBUG 3: Exibir a primeira linha de dados RAW
+        if raw_rows:
+            print(f"DEBUG: Primeira linha de dados RAW: {raw_rows[0]}")
+            
+        # Mapeando os resultados para uma lista de dicionários
+        results = [dict(zip(columns, row)) for row in raw_rows]
+        
+        # DEBUG 4: Exibir o primeiro resultado Dicionário Mapeado
+        if results:
+            print(f"DEBUG: Primeiro resultado (Dicionário): {results[0]}")
+
         return results
+        
     except Exception as e:
         flash(f"Erro de banco de dados: {e}", 'error')
         print(f"Erro de banco de dados (fetch_all): {e}")
@@ -108,12 +127,17 @@ def buscar():
 def listar():
     try:
         page = int(request.args.get('page', 1))
+        per_page = int(request.args.get('per_page', 10))  # Permitir ajustar itens por página
     except ValueError:
         page = 1
-    per_page = 10
+        per_page = 10
+    
     offset = (page - 1) * per_page
+    
     filtro_nome = request.args.get('nome', '').strip()
     filtro_origem = request.args.get('origem', '').strip()
+
+    # --- COUNT QUERY ---
     query_count = "SELECT COUNT(id) as total FROM nomes WHERE 1=1"
     params = []
     if filtro_nome:
@@ -122,15 +146,29 @@ def listar():
     if filtro_origem:
         query_count += " AND origem ILIKE %s"
         params.append(f"%{filtro_origem}%")
+
     total_result = fetch_one(query_count, tuple(params))
     total_registros = total_result['total'] if total_result else 0
     total_pages = (total_registros + per_page - 1) // per_page
+
     if page < 1:
         page = 1
     if page > total_pages and total_pages > 0:
         page = total_pages
         offset = (page - 1) * per_page
-    query = "SELECT id, nome, significado, origem, motivo_escolha, pesquisas FROM nomes WHERE 1=1"
+    
+    # --- SELECT QUERY (Principal) ---
+    query = """
+        SELECT 
+            id, 
+            nome, 
+            significado, 
+            origem, 
+            motivo_escolha, 
+            pesquisas 
+        FROM nomes 
+        WHERE 1=1
+    """
     params = []
     if filtro_nome:
         query += " AND nome ILIKE %s"
@@ -138,18 +176,22 @@ def listar():
     if filtro_origem:
         query += " AND origem ILIKE %s"
         params.append(f"%{filtro_origem}%")
+
     query += " ORDER BY nome ASC LIMIT %s OFFSET %s"
     params.extend([per_page, offset])
+
     nomes = fetch_all(query, tuple(params))
+
     print(f"Debug /listar: Total registros: {total_registros}, Nomes encontrados: {len(nomes)}")
-    for i, nome in enumerate(nomes):
-        nome['indice'] = offset + i + 1
+    print(f"Debug /listar: Primeiros nomes: {[n['nome'] for n in nomes]}")  # Debug adicional
+
     return render_template('listar.html', 
                            nomes=nomes, 
                            page=page, 
                            total_pages=total_pages,
                            filtro_nome=filtro_nome,
-                           filtro_origem=filtro_origem)
+                           filtro_origem=filtro_origem,
+                           per_page=per_page)
 
 @app.route('/cadastrar', methods=['GET', 'POST'])
 def cadastrar():
@@ -206,6 +248,7 @@ def estatisticas():
             plt.xlabel('Nome')
             plt.xticks(rotation=45, ha='right')
             plt.tight_layout()
+        
         buf = io.BytesIO()
         plt.savefig(buf, format='png', transparent=True)
         plt.close()
@@ -215,6 +258,7 @@ def estatisticas():
     origens = [d['origem'] for d in data_origem]
     contagens = [d['count'] for d in data_origem]
     grafico_origem_url = generate_chart(origens, contagens, 'pie', 'Distribuição de Nomes por Origem')
+
     top_nomes_labels = [d['nome'] for d in data_top5]
     top_nomes_pesquisas = [d['pesquisas'] for d in data_top5]
     grafico_top5_url = generate_chart(top_nomes_labels, top_nomes_pesquisas, 'bar', 'Top 5 Nomes Mais Pesquisados', 'Número de Pesquisas')
