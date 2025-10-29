@@ -1,21 +1,73 @@
+<!-- templates/estatisticas.html -->
 {% extends "base.html" %}
-{% block title %}Estatísticas{% endblock %}
+{% block title %}Estatísticas - Livro dos Nomes{% endblock %}
 
 {% block content %}
-<h1>Estatísticas</h1>
-<p>Total de nomes: <strong>{{ total }}</strong></p>
-<p>Nome mais comum: <strong>{{ mais_comum }}</strong></p>
-<p>Origem mais comum: <strong>{{ origem_comum }}</strong></p>
+<div class="text-center mb-5">
+    <h1 class="display-5 fw-bold mb-3">Estatísticas do Banco de Nomes</h1>
+    <p class="lead text-muted">
+        Total de nomes cadastrados: 
+        <span class="badge bg-primary fs-5">{{ tabela_origem | sum(attribute='count') }}</span>
+    </p>
+</div>
 
-<h2 class="mt-4">Gráficos</h2>
-<div class="row">
-  <div class="col-md-6">
-    <h5>Top 5 Nomes Mais Comuns</h5>
-    <img src="{{ url_for('static', filename='nomes_comuns.png') }}" class="img-fluid">
-  </div>
-  <div class="col-md-6">
-    <h5>Distribuição das Origens</h5>
-    <img src="{{ url_for('static', filename='origens.png') }}" class="img-fluid">
-  </div>
+<div class="row g-5">
+    <!-- GRÁFICO DE ORIGENS -->
+    <div class="col-lg-7">
+        <div class="card shadow-sm h-100">
+            <div class="card-body p-4">
+                <h5 class="card-title text-center mb-4">Top 10 Origens + Outras</h5>
+                {% if grafico_origem_url %}
+                <img src="{{ grafico_origem_url }}" alt="Origens" class="img-fluid rounded">
+                {% else %}
+                <p class="text-muted text-center">Nenhuma origem cadastrada.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- GRÁFICO TOP 5 -->
+    <div class="col-lg-5">
+        <div class="card shadow-sm h-100">
+            <div class="card-body p-4">
+                <h5 class="card-title text-center mb-4">Top 5 Mais Pesquisados</h5>
+                {% if grafico_top5_url %}
+                <img src="{{ grafico_top5_url }}" alt="Top 5" class="img-fluid rounded">
+                {% else %}
+                <p class="text-muted text-center">Nenhuma pesquisa ainda.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TABELA DETALHADA -->
+<div class="mt-5">
+    <h5 class="mb-3">Detalhes das Origens</h5>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>Origem</th>
+                    <th class="text-center">Quantidade</th>
+                    <th class="text-center">%</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set total = tabela_origem | sum(attribute='count') %}
+                {% for item in tabela_origem %}
+                <tr>
+                    <td><strong>{{ item.origem }}</strong></td>
+                    <td class="text-center">
+                        <span class="badge bg-info">{{ item.count }}</span>
+                    </td>
+                    <td class="text-center">
+                        <span class="text-muted">{{ '%.1f'|format((item.count / total * 100) if total else 0) }}%</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
