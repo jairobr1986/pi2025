@@ -465,12 +465,14 @@ def exportar_csv():
 # ==========================================
 # EXECUÇÃO DO SERVIDOR
 # ==========================================
-if __name__ == '__main__':
-    """
-    Inicia o servidor Flask.
-    - debug=True: recarrega automaticamente
-    - host='0.0.0.0': acessível na rede local
-    - port=5000: porta padrão
-    """
-    print("Servidor iniciando em http://127.0.0.1:5000")
-    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+
+
+# if __name__ == '__main__':
+#     """
+#     Inicia o servidor Flask.
+#     - debug=True: recarrega automaticamente
+#     - host='0.0.0.0': acessível na rede local
+#     - port=5000: porta padrão
+#     """
+#     print("Servidor iniciando em http://127.0.0.1:5000")
+#     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
