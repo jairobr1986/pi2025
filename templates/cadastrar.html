@@ -2,24 +2,156 @@
 {% block title %}Cadastrar Nome{% endblock %}
 
 {% block content %}
-<h1>Cadastrar Novo Nome</h1>
-<form method="POST">
-  <div class="mb-3">
-    <label class="form-label">Nome</label>
-    <input type="text" name="nome" class="form-control" required>
+<section class="contact-section">
+  <div class="container">
+    <h1>Contato</h1>
+    <p>Projeto Integrador - UNIVESP</p>
+
+    <div class="team">
+      <h2>Autores</h2>
+      <ul>
+        <li><strong>Jairo Oliveira Santos</strong></li>
+
+        <li><strong>Wagner Frollini Zabotto Junior</strong></li>
+      </ul>
+      <p><strong>Orientadora:</strong> Danielly Cristina da Silva Lucio</p>
+    </div>
+
+    <div class="links">
+      <h2>Redes Sociais</h2>
+      <ul>
+        <li><a href="https://github.com/jairobr1986" target="_blank">GitHub - Jairo Oliveira Santos</a></li>
+        <li><a href="https://www.instagram.com/jairo.work/" target="_blank">Instagram - @jairo.work</a></li>
+        <!-- <li><a href="https://univesp.br/" target="_blank">UNIVESP - Universidade Virtual do Estado de São Paulo</a></li> -->
+      </ul>
+      <br>
+      <h2>LINK UNIVESP</h2>
+      <ul>
+        <li><a href="https://univesp.br/" target="_blank">UNIVESP - Universidade Virtual do Estado de São Paulo</a></li>
+      </ul>
+
+    </div>
+
+    <!-- <div class="contact-form">
+      <h2>Envie uma mensagem</h2>
+
+      {% if mensagem %}
+      <div class="alert">{{ mensagem }}</div>
+      {% endif %} -->
+
+    <!-- <form action="{{ url_for('contato') }}" method="POST">
+        <input type="text" name="nome" placeholder="Seu nome" required>
+        <input type="email" name="email" placeholder="Seu e-mail" required>
+        <textarea name="mensagem" placeholder="Sua mensagem" required></textarea>
+        <button type="submit">Enviar</button>
+      </form> -->
   </div>
-  <div class="mb-3">
-    <label class="form-label">Significado</label>
-    <input type="text" name="significado" class="form-control">
   </div>
-  <div class="mb-3">
-    <label class="form-label">Origem</label>
-    <input type="text" name="origem" class="form-control">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Motivo da escolha</label>
-    <input type="text" name="motivo" class="form-control">
-  </div>
-  <button type="submit" class="btn btn-success">Cadastrar</button>
-</form>
+</section>
+
+<style>
+  /* ======== Página de Contato ======== */
+  .contact-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    background-color: #fafafa;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .contact-section h1 {
+    color: #657abd;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-section p {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .team,
+  .links,
+  .contact-form {
+    margin-bottom: 2rem;
+  }
+
+  .team h2,
+  .links h2,
+  .contact-form h2 {
+    color: #0e59bb;
+    border-left: 4px solid #272abd;
+    padding-left: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .team ul,
+  .links ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .team li,
+  .links li {
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-section a {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .contact-section a:hover {
+    text-decoration: underline;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    padding: .8rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+
+  .contact-form textarea {
+    height: 120px;
+    resize: vertical;
+  }
+
+  .contact-form button {
+    background-color: #233c86;
+    color: white;
+    padding: .8rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .contact-form button:hover {
+    background-color: #1f1cc4;
+  }
+
+  .alert {
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+    color: #2e7d32;
+    padding: .8rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .contact-section {
+      padding: 1rem;
+    }
+  }
+</style>
 {% endblock %}

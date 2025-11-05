@@ -461,6 +461,24 @@ def exportar_csv():
         print(f"[ERRO] Exportação CSV: {e}")
         return redirect(url_for('index'))
 
+# ==========================================
+# ROTA: CONTATOS
+# ==========================================
+
+@app.route("/contato", methods=["GET", "POST"])
+def contato():
+    if request.method == "POST":
+        nome = request.form["nome"]
+        email = request.form["email"]
+        mensagem = request.form["mensagem"]
+
+        # Aqui você pode salvar no banco, exportar CSV ou enviar e-mail.
+        print(f"Nova mensagem de {nome} ({email}): {mensagem}")
+
+        return render_template("contato.html", mensagem="Mensagem enviada com sucesso! 🎉")
+
+    return render_template("contato.html")
+
 
 # ==========================================
 # EXECUÇÃO DO SERVIDOR
