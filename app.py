@@ -1,7 +1,6 @@
 # ==========================================
 # app.py - SERVIDOR WEB DO PROJETO "LIVRO DOS NOMES"
 # ==========================================
-# Autor: Jairo (com ajuda do Grok)
 # Descrição: Aplicação Flask para gerenciar nomes com:
 #   - Cadastro
 #   - Busca (com 3+ letras, início do nome)
